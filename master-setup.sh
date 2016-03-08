@@ -1,19 +1,22 @@
 #!/bin/bash
+#Created by Victor Roos on 08.03.2016 15:00
+
 ##########################
 #Install script for Sonarr
 ##########################
 
+SONARR_INIT_F=/etc/init.d/nzbdrone
+  #trhis section will add the repo and install the key for the sonarr repo
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FDA5DFFC
 echo "deb https://apt.sonarr.tv/ master main" | sudo tee -a /etc/apt/sources.list.d/sonarr.list
-
 sudo apt-get update
 sudo apt-get upgrade -y
 sudo apt-get install nzbdrone -y
 sudo chown pi:pi -R /opt/NzbDrone
-sudo cp /i-data/md0/kitt/linux/script/nzbdrone /etc/init.d/
-sudo chmod +x /etc/init.d/nzbdrone
-sudo update-rc.d nzbdrone defaults
-/*
+  #This will verify if the file nzbdrone existsa in /etc/init.d/ folder and 
+  #if NOT it will create it and paste the content of the EOF section
+if [ ! -w $SONARR_INIT_F ]
+  then  cat >$SONARR_INIT_F <<EOF
 #! /bin/sh
 ### BEGIN INIT INFO
 # Provides: NzbDrone
@@ -135,4 +138,11 @@ exit 1
 esac
 
 exit 0
-*/
+EOF
+else  echo "the file exists: $SONARR_INIT_F"
+fi
+
+sudo chmod +x /etc/init.d/nzbdrone
+sudo update-rc.d nzbdrone defaults
+echo "Sonarr/NzbDrone is installed on your Raspberry Pi"
+exit 0
