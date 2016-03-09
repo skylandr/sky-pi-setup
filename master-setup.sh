@@ -1,12 +1,25 @@
 #!/bin/bash
-#Created by Victor Roos on 08.03.2016 15:00
+##################################################
+### Created by Victor Roos on 09.03.2016 12:00 ###
+#################### v. 0.1.2 ####################
+##################################################
+
+### Checking if the script is run as root
+
+if [[ $EUID != 0 ]] 
+  then
+    echo Please run the script as root
+    exit 1
+  else
+    echo Running the script as root >> master-setup.log
+fi
 
 ##########################
 #Install script for Sonarr
 ##########################
 
 SONARR_INIT_F=/etc/init.d/nzbdrone
-  #trhis section will add the repo and install the key for the sonarr repo
+  #this section will add the repo and install the key for the sonarr repo
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FDA5DFFC
 echo "deb https://apt.sonarr.tv/ master main" | sudo tee -a /etc/apt/sources.list.d/sonarr.list
 sudo apt-get update
@@ -16,7 +29,7 @@ sudo chown pi:pi -R /opt/NzbDrone
   #This will verify if the file nzbdrone existsa in /etc/init.d/ folder and 
   #if NOT it will create it and paste the content of the EOF section
 if [ ! -w $SONARR_INIT_F ]
-  then  cat >$SONARR_INIT_F <<EOF
+  then  sudo cat >$SONARR_INIT_F <<EOF
 #! /bin/sh
 ### BEGIN INIT INFO
 # Provides: NzbDrone
