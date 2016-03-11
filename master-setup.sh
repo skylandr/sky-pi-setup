@@ -19,6 +19,7 @@ fi
 sonarr() {
         SONARR_INIT_F=/etc/init.d/nzbdrone
         SONARR_REPO_F=/etc/apt/sources.list.d/sonarr.list
+        MOMO_VER=$(mono -V | grep version | awk '{print $5}')
         echo Installing Sonarr on your system ... please wait
 ### this section will add the repo and install the key for the sonarr repo
         if [ ! -f $SONARR_REPO_F ]
@@ -38,7 +39,7 @@ sonarr() {
             echo Installing MONO runtime ...
             apt-get install mono-complete -y 2>&1 >> setup.log
           else
-            echo Mono &(mono -V | grep version | awk '{print $5}') is installed
+            echo Mono $MONO_VER is installed
         fi
         if [ $(find / -name NzbDrone.exe) != "/opt/NzbDrone/NzbDrone.exe"]
           then
