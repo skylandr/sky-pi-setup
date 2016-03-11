@@ -19,10 +19,13 @@ fi
 sonarr() {
         SONARR_INIT_F=/etc/init.d/nzbdrone
         SONARR_REPO_F=/etc/apt/sources.list.d/sonarr.list
+        echo Installing Sonarr on your system ... please wait
 ### this section will add the repo and install the key for the sonarr repo
-        if [ -f $SONARR_REPO_F ]
+        if [ ! -f $SONARR_REPO_F ]
           then
+            echo Installing key ...
             apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FDA5DFFC 2>&1 >> setup.log
+            echo Creating $SONARR_REPO_F file
             echo "deb https://apt.sonarr.tv/ master main" | tee -a /etc/apt/sources.list.d/sonarr.list
           else
             echo The .list file already exists: $SONARR_REPO_F 2>&1 >> setup.log
