@@ -41,7 +41,7 @@ sonarr() {
           else
             echo Mono $MONO_VER is installed
         fi
-        if [ $(find / -name NzbDrone.exe) != "/opt/NzbDrone/NzbDrone.exe"]
+        if [ $(find /opt/ -name NzbDrone.exe) != "/opt/NzbDrone/NzbDrone.exe" ]
           then
             echo Installing NzbDrone package ...
             apt-get install nzbdrone -y 2>&1 >> setup.log
