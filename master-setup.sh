@@ -19,7 +19,7 @@ fi
 sonarr() {
         SONARR_INIT_F=/etc/init.d/nzbdrone
         SONARR_REPO_F=/etc/apt/sources.list.d/sonarr.list
-        MONO_VER=$(mono -V | grep version | awk `{print $5}`)
+        MONO_VER=$(mono -V | grep version | awk '{print $5}')
         echo Installing Sonarr on your system ... please wait
 ### this section will add the repo and install the key for the sonarr repo
         if [ ! -f $SONARR_REPO_F ]
@@ -48,11 +48,12 @@ sonarr() {
           else
             echo Sonarr is already installed ... bye
             exit 0
+        fi
         chown pi:pi -R /opt/NzbDrone
 ### This will verify if the file nzbdrone existsa in /etc/init.d/ folder and 
 ### if NOT it will create it and paste the content of the EOF section
         if [ ! -w $SONARR_INIT_F ]
-          then  sudo cat >$SONARR_INIT_F <<EOF
+          then cat >$SONARR_INIT_F <<EOF
             #! /bin/sh
             ### BEGIN INIT INFO
             # Provides: NzbDrone
