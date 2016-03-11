@@ -19,7 +19,7 @@ fi
 sonarr() {
         SONARR_INIT_F=/etc/init.d/nzbdrone
         SONARR_REPO_F=/etc/apt/sources.list.d/sonarr.list
-        MOMO_VER=$(mono -V | grep version | awk '{ print $5 }')
+        MONO_VER=$(mono -V | grep version | awk `{print $5}`)
         echo Installing Sonarr on your system ... please wait
 ### this section will add the repo and install the key for the sonarr repo
         if [ ! -f $SONARR_REPO_F ]
