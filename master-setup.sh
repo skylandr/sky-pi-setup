@@ -31,8 +31,8 @@ sonarr() {
             echo The .list file already exists: $SONARR_REPO_F 2>&1 >> setup.log
         fi
         echo Updateing the system ...
-        apt-get update 2>&1 >> setup.log
-        apt-get upgrade -y 2>&1 >> setup.log
+        #apt-get update 2>&1 >> setup.log
+        #apt-get upgrade -y 2>&1 >> setup.log
         if [ $(which mono) != /usr/bin/mono ]
           then 
         echo Installing MONO runtime ...
