@@ -30,18 +30,23 @@ sonarr() {
           else
             echo The .list file already exists: $SONARR_REPO_F 2>&1 >> setup.log
         fi
-        echo Updateing the system ...
+        echo Updating the system: $HOSTNAME ...
         #apt-get update 2>&1 >> setup.log
         #apt-get upgrade -y 2>&1 >> setup.log
-        if [ $(which mono) != /usr/bin/mono ]
-          then 
-        echo Installing MONO runtime ...
-        apt-get install mono-complete -y 2>&1 >> setup.log
-          else 
-            echo Mono is installed and the version is: mono -V | grep version | awk '{print $5}'
+        if [ $(which mono) != "/usr/bin/mono" ]
+          then
+            echo Installing MONO runtime ...
+            apt-get install mono-complete -y 2>&1 >> setup.log
+          else
+            echo Mono &(mono -V | grep version | awk '{print $5}') is installed
         fi
-        echo Installing NzbDrone package ...
-        apt-get install nzbdrone -y 2>&1 >> setup.log
+        if [ $(find / -name NzbDrone.exe) != "/opt/NzbDrone/NzbDrone.exe"]
+          then
+            echo Installing NzbDrone package ...
+            apt-get install nzbdrone -y 2>&1 >> setup.log
+          else
+            echo Sonarr is already installed ... bye
+            exit 0
         chown pi:pi -R /opt/NzbDrone
 ### This will verify if the file nzbdrone existsa in /etc/init.d/ folder and 
 ### if NOT it will create it and paste the content of the EOF section
