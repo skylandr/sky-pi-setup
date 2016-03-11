@@ -175,12 +175,11 @@ sonarr() {
 EOF
           else  echo "the file exists: $SONARR_INIT_F"
         fi
-      
         sudo chmod +x /etc/init.d/nzbdrone
         sudo update-rc.d nzbdrone defaults
         echo "Sonarr/NzbDrone is installed on your Raspberry Pi"
         exit 0
-        }
+}
 couchpotato(){
         echo Installing CouchPotato ...
         sleep 5
