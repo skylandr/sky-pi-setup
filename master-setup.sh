@@ -1,29 +1,36 @@
 #!/bin/bash
 ##################################################
 ### Created by Victor Roos on 09.03.2016 12:00 ###
-#################### v. 0.1.2 ####################
+#################### v. 0.1.3 ####################
 ##################################################
 
 ### Checking if the script is run as root
 
 if [[ $EUID != 0 ]] 
   then
-    echo Please run the script as root
+    echo Please run the script as root or with sudo
     exit 1
   else
-    echo Running the script as root >> master-setup.log
+    echo Running the script as root 2>&1 >> setup.log
 fi
 
 ### Install script for Sonarr
 
 sonarr() {
         SONARR_INIT_F=/etc/init.d/nzbdrone
+        SONARR_REPO_F=/etc/apt/sources.list.d/sonarr.list
 ### this section will add the repo and install the key for the sonarr repo
-        apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FDA5DFFC
-        echo "deb https://apt.sonarr.tv/ master main" | sudo tee -a /etc/apt/sources.list.d/sonarr.list
-        apt-get update
-        apt-get upgrade -y
-        apt-get install nzbdrone -y
+        if [ -f $SONARR_REPO_F ]
+          then
+            apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FDA5DFFC 2>&1 >> setup.log
+            echo "deb https://apt.sonarr.tv/ master main" | tee -a /etc/apt/sources.list.d/sonarr.list
+          else
+            echo The .list file already exists: $SONARR_REPO_F 2>&1 >> setup.log
+        fi
+        apt-get update 2>&1 >> setup.log
+        apt-get upgrade -y 2>&1 >> setup.log
+        apt-get install mono-complete -y 2>&1 >> setup.log
+        apt-get install nzbdrone -y 2>&1 >> setup.log
         chown pi:pi -R /opt/NzbDrone
 ### This will verify if the file nzbdrone existsa in /etc/init.d/ folder and 
 ### if NOT it will create it and paste the content of the EOF section
