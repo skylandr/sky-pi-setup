@@ -184,38 +184,38 @@ EOF
         return 0
 }
 couchpotato(){
-        echo Installing CouchPotato ...
+        echo This option is not yet implemented ... please try another number
         sleep 5
-        echo CouchPotato is installed on your system.
+        return 0
         }
 
 jackett(){
-        echo Installing Jacket ...
+        echo This option is not yet implemented ... please try another number
         sleep 5
-        echo Jacket was installed on your system.
+        return 0
         }
 
 webmin(){
-        echo Installing Webmin ...
+        echo This option is not yet implemented ... please try another number
         sleep 5
-        echo Webmin is installed on your system.
+        return 0
         }
 
 plex()  {
-        echo Installing Plex Media Server ...
+        echo This option is not yet implemented ... please try another number
         sleep 5
-        echo Plex Media Server is installed on your system.
+        return 0
         }
 
 all()   {
-        echo This option will install all the above software ... please wait
+        echo This option is not yet implemented ... please try another number
         sleep 5
         sonarr
         couchpotato
         jackett
         plex
         webmin
-        quit
+        return 0
         }
 
 quit()  {
@@ -248,4 +248,3 @@ select opt in $OPTIONS; do
                 error
         fi
 done
-
