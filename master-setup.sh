@@ -187,6 +187,13 @@ couchpotato(){
         CP_SERVICE_F=/etc/systemd/system/couchpotato.service
         echo This option is not yet implemented ... please try another number
         sleep 5
+        echo installing dependencies
+        apt-get update 2>&1 >> setup.log
+        apt-get upgrade 2>&1 >> setup.log
+        apt-get install git-core libffi-dev libssl-dev zlib1g-dev libxslt1-dev libxml2-dev python python-pip python-dev build-essential -y --force-yes 2>&1 >> setup.log
+        echo installing couchpotato from github
+        git clone https://github.com/CouchPotato/CouchPotatoServer /opt/couchpotato
+        chown -R pi:pi /opt/couchpotato
         if [ == $CP_SERVICE_F ]
           then
             echo the service is installed
@@ -194,16 +201,14 @@ couchpotato(){
             cat >>$CP_SERVICE_F <<EOF
             [Unit]                                                                                                                                               
             Description=CouchPotato Daemon                                                                                                                       
-            After=network.target                                                                                                                                 
-    
+            After=network.target
+
             [Service]                                                                                                                                            
-            User=pi                                                                                                                                              
-            Restart=always                                                                                                                                       
-            RestartSec=5                                                                                                                                         
+            User=pi
+            Group=pi
             Type=simple                                                                                                                                          
-            ExecStart=/usr/bin/python /opt/CouchPotato/CouchPotato.py                                                                                            
-            TimeoutStopSec=20                                                                                                                                    
-    
+            ExecStart=/usr/bin/python /opt/couchpotato/CouchPotato.py                                                                                            
+            
             [Install]                                                                                                                                            
             WantedBy=multi-user.target
 EOF
