@@ -184,8 +184,30 @@ EOF
         return 0
 }
 couchpotato(){
+        CP_SERVICE_F=/etc/systemd/system/couchpotato.service
         echo This option is not yet implemented ... please try another number
         sleep 5
+        if [ == $CP_SERVICE_F ]
+          then
+            echo the service is installed
+          else
+            cat >>$CP_SERVICE_F <<EOF
+            [Unit]                                                                                                                                               
+            Description=CouchPotato Daemon                                                                                                                       
+            After=network.target                                                                                                                                 
+    
+            [Service]                                                                                                                                            
+            User=pi                                                                                                                                              
+            Restart=always                                                                                                                                       
+            RestartSec=5                                                                                                                                         
+            Type=simple                                                                                                                                          
+            ExecStart=/usr/bin/python /opt/CouchPotato/CouchPotato.py                                                                                            
+            TimeoutStopSec=20                                                                                                                                    
+    
+            [Install]                                                                                                                                            
+            WantedBy=multi-user.target
+EOF
+        fi
         return 0
         }
 
