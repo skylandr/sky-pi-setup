@@ -6,23 +6,32 @@
 
 ### Checking if the script is run as root
 
-if [[ $EUID != 0 ]] 
-  then
-    echo Please run the script as root or with sudo
-    exit 1
-  else
+if [[ $EUID != 0 ]]
+then
+	echo Please run the script as root or with sudo
+    exit
+else
     echo Running the script as root 2>&1 >> setup.log
 fi
+
+sys_update() {
+	echo Updating the system: $HOSTNAME ...
+	apt-get update 2>&1 >> setup.log
+	echo Upgrading the system: $HOSTNAME ...
+	apt-get upgrade -y --force-yes 2>&1 >> setup.log
+	echo $HOSTNAME is up to date.
+	return 0
+}
 
 ### Install script for Sonarr
 
 sonarr() {
-        SONARR_INIT_F=/etc/init.d/nzbdrone
-        SONARR_REPO_F=/etc/apt/sources.list.d/sonarr.list
-        MONO_VER=$(mono -V | grep version | awk '{print $5}')
-        echo Installing Sonarr on $HOSTNAME ... please wait
-### this section will add the repo and install the key for the sonarr repo
-        if [ ! -f $SONARR_REPO_F ]
+	SONARR_INIT_F=/etc/init.d/nzbdrone
+	SONARR_REPO_F=/etc/apt/sources.list.d/sonarr.list
+	MONO_VER=$(mono -V | grep version | awk '{print $5}')
+	echo Installing Sonarr on $HOSTNAME ... please wait
+    #this section will add the repo and install the key for the sonarr repo
+if [ ! -f $SONARR_REPO_F ]
           then
             echo Installing key ...
             apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FDA5DFFC 2>&1 >> setup.log
@@ -255,9 +264,11 @@ error() {
         echo bad option ... try again
         }
 
-OPTIONS="Sonarr CouchPotato Jackett Webmin Plex All Quit"
+OPTIONS="SYS-Update Sonarr CouchPotato Jackett Webmin Plex All Quit"
 select opt in $OPTIONS; do
-        if [ "$opt" = "Sonarr" ]; then
+        if [ "$opt" = "SYS-Update" ]; then
+                sys_update
+        elif [ "$opt" = "Sonarr"]; then
                 sonarr
         elif [ "$opt" = "CouchPotato" ]; then
                 couchpotato
