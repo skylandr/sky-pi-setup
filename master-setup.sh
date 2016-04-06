@@ -137,8 +137,11 @@ jackett_updt(){
 	JACKETT_VER=`cat $JACKETT_TMP_HTM_F | grep -m 1 "css-truncate-target" | grep -E -o "v[^<>]*?" | head -1`
 	JACKETT_TMP_F=/opt/kitt/Jackett-$JACKETT_VER.tar.gz
 	JACKETT_DL=https://github.com$JACKETT_LNK
-	wget -O $JACKETT_TMP_F $JACKETT_DL
+	wget -Onc $JACKETT_TMP_F $JACKETT_DL
 	rm -f $JACKETT_TMP_HTM_F
+	#systemctl stop jackett.service
+	#rm -rf $JACKETT_D/*
+	#tar -xvf $JACKETT_TMP_F -C $JACKETT_D
 	return 0
 }
 
