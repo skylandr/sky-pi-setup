@@ -134,9 +134,9 @@ jackett_updt(){
 	cd $JACKETT_TMP_D
 	wget -r -O jackett.tmp https://github.com/Jackett/Jackett/releases
 	JACKETT_LNK=`cat jackett.tmp | grep -m 1 -o -E "/Jackett/Jackett/releases/download/[^<>]*?/Jackett.Binaries.Mono.tar.gz"`
-	JACKETT_VER=` cat tmp.html | grep -m 1 "css-truncate-target" | grep -E -o "v[^<>]*?" | head -1`
-	JACKETT_DL=https://github.com$JACKETT_LNK
+	JACKETT_VER=`cat jackett.tmp | grep -m 1 "css-truncate-target" | grep -E -o "v[^<>]*?" | head -1`
 	JACKETT_TMP_F=Jackett-$JACKETT_VER.tar.gz
+	JACKETT_DL=https://github.com$JACKETT_LNK
 	wget -O $JACKETT_TMP_F $JACKETT_DL
 	rm -f jackett.tmp
 	return 0
