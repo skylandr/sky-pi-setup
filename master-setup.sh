@@ -130,15 +130,15 @@ jackett(){
 jackett_updt(){
 	JACKETT_D=/opt/Jackett
 	JACKETT_TMP_D=/opt/kitt
+	JACKETT_TMP_HTM_F=/opt/kitt/jackett.tmp
 	mkdir JACKETT_TMP_D
-	cd $JACKETT_TMP_D
-	wget -r -O jackett.tmp https://github.com/Jackett/Jackett/releases
-	JACKETT_LNK=`cat jackett.tmp | grep -m 1 -o -E "/Jackett/Jackett/releases/download/[^<>]*?/Jackett.Binaries.Mono.tar.gz"`
-	JACKETT_VER=`cat jackett.tmp | grep -m 1 "css-truncate-target" | grep -E -o "v[^<>]*?" | head -1`
-	JACKETT_TMP_F=Jackett-$JACKETT_VER.tar.gz
+	wget -r -O JACKETT_TMP_HTM_F https://github.com/Jackett/Jackett/releases
+	JACKETT_LNK=`cat $JACKETT_TMP_HTM_F | grep -m 1 -o -E "/Jackett/Jackett/releases/download/[^<>]*?/Jackett.Binaries.Mono.tar.gz"`
+	JACKETT_VER=`cat $JACKETT_TMP_HTM_F | grep -m 1 "css-truncate-target" | grep -E -o "v[^<>]*?" | head -1`
+	JACKETT_TMP_F=/opt/kitt/Jackett-$JACKETT_VER.tar.gz
 	JACKETT_DL=https://github.com$JACKETT_LNK
 	wget -O $JACKETT_TMP_F $JACKETT_DL
-	rm -f jackett.tmp
+	rm -f JACKETT_TMP_HTM_F
 	return 0
 }
 
@@ -179,7 +179,7 @@ OPTIONS="SYS-Update Sonarr CouchPotato Jackett-inst Jackett-updt Webmin Plex All
 select opt in $OPTIONS; do
 	if [ "$opt" = "SYS-Update" ]; then
 			sys_update
-		elif [ "$opt" = "Sonarr"]; then
+		elif [ "$opt" = "Sonarr" ]; then
 			sonarr
 		elif [ "$opt" = "CouchPotato" ]; then
 			couchpotato
