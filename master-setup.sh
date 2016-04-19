@@ -136,7 +136,7 @@ jackett_updt(){
 	JACKETT_LNK=`cat $JACKETT_TMP_HTM_F | grep -m 1 -o -E "/Jackett/Jackett/releases/download/[^<>]*?/Jackett.Binaries.Mono.tar.gz"`
 	JACKETT_VER=`cat $JACKETT_TMP_HTM_F | grep -m 1 "css-truncate-target" | grep -E -o "v[^<>]*?" | head -1`
 	JACKETT_TMP_F=/opt/kitt/Jackett-$JACKETT_VER.tar.gz
-	if [ $(ls /opt/kitt/ | grep -o -P '(?<=Jackett-v).*(.tar.gz)' | tail -1) = $JACKETT_VER ]
+	if [ $(ls /opt/kitt/ | grep -o -P '(?<=Jackett-v).*(?=.tar.gz)' | tail -1) = $JACKETT_VER ]
 		then
 			echo you have the latest version installed
 		else
