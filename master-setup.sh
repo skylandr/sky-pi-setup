@@ -139,9 +139,10 @@ jackett_updt(){
 	JACKETT_DL=https://github.com$JACKETT_LNK
 	wget -nc -O $JACKETT_TMP_F $JACKETT_DL
 	rm -f $JACKETT_TMP_HTM_F
-	#systemctl stop jackett.service
-	#rm -rf $JACKETT_D/*
-	#tar -xvf $JACKETT_TMP_F -C $JACKETT_D
+	systemctl stop jackett.service
+	rm -rf $JACKETT_D/*
+	tar -xvf $JACKETT_TMP_F -C $JACKETT_D
+	systemctl start jackett.service
 	return 0
 }
 
