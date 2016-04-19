@@ -142,7 +142,7 @@ jackett_updt(){
 	systemctl stop jackett.service
 	sleep 2
 	rm -vrf $JACKETT_D/*
-	tar -xvf $JACKETT_TMP_F -C $JACKETT_D
+	tar -xvf $JACKETT_TMP_F -C /opt
 	systemctl start jackett.service
 	return 0
 }
