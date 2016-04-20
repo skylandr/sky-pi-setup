@@ -147,19 +147,22 @@ jackett_updt(){
 		else
 			echo Updating Jackett to the latest version
 			sleep 1
+			echo Removing old downloaded file
+			rm -rf /opt/kitt/Jackett-$JACKETT_TMP_F_VER.tar.gz
+			echo Downloading the new file from server
 			wget -nc -O $JACKETT_TMP_F $JACKETT_DL
-			rm -f $JACKETT_TMP_HTM_F
 			echo Stopping jackett.service
-			sleep 1
 			systemctl stop jackett.service
 			sleep 2
 			echo Removing Jackett directory content
 			rm -vrf $JACKETT_D/*
-			echo unpacking the new version 
+			echo Unpacking the new version 
 			tar -xvf $JACKETT_TMP_F -C /opt
-			echo starting the service
+			echo Starting jackett.service
 			systemctl start jackett.service
 	fi
+	echo Removing temp files
+	rm -f $JACKETT_TMP_HTM_F
 	return 0
 }
 
