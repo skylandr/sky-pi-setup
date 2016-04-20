@@ -143,6 +143,7 @@ jackett_updt(){
 			echo you have the latest version installed
 			return 0
 		else
+			/*
 			echo Updating Jackett to the latest version
 			sleep 1
 			wget -nc -O $JACKETT_TMP_F $JACKETT_DL
@@ -157,6 +158,9 @@ jackett_updt(){
 			tar -xvf $JACKETT_TMP_F -C /opt
 			echo starting the service
 			systemctl start jackett.service
+			*/
+			echo Server version $JACKETT_VER
+			echo Local Version $JACKETT_TMP_F_VER
 	fi
 	return 0
 }
