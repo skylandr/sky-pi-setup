@@ -132,7 +132,7 @@ jackett_updt(){
 	JACKETT_TMP_D=/opt/kitt
 	JACKETT_TMP_HTM_F=/opt/kitt/jackett.tmp
 	mkdir -p $JACKETT_TMP_D 
-	wget -r -O -q $JACKETT_TMP_HTM_F https://github.com/Jackett/Jackett/releases 2>&1 >> setup.log
+	wget -q -r -O $JACKETT_TMP_HTM_F https://github.com/Jackett/Jackett/releases 2>&1 >> setup.log
 	JACKETT_LNK=`cat $JACKETT_TMP_HTM_F | grep -m 1 -o -E "/Jackett/Jackett/releases/download/[^<>]*?/Jackett.Binaries.Mono.tar.gz"`
 	JACKETT_VER=`cat $JACKETT_TMP_HTM_F | grep -m 1 "css-truncate-target" | grep -E -o "v[^<>]*?" | head -1`
 	JACKETT_TMP_F=/opt/kitt/Jackett-$JACKETT_VER.tar.gz
