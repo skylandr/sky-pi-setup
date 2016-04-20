@@ -143,7 +143,6 @@ jackett_updt(){
 			echo You have the latest version installed
 			echo Server version $JACKETT_VER
 			echo Local Version $JACKETT_TMP_F_VER
-			return 0
 		else
 			echo Updating Jackett to the latest version
 			sleep 1
