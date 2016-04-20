@@ -136,14 +136,15 @@ jackett_updt(){
 	JACKETT_LNK=`cat $JACKETT_TMP_HTM_F | grep -m 1 -o -E "/Jackett/Jackett/releases/download/[^<>]*?/Jackett.Binaries.Mono.tar.gz"`
 	JACKETT_VER=`cat $JACKETT_TMP_HTM_F | grep -m 1 "css-truncate-target" | grep -E -o "v[^<>]*?" | head -1`
 	JACKETT_TMP_F=/opt/kitt/Jackett-$JACKETT_VER.tar.gz
-	JACKETT_TMP_F_VER=`ls /opt/kitt/ | grep -o -P '(?<=Jackett-v).*(?=.tar.gz)' | tail -1`
+	JACKETT_TMP_F_VER=`ls /opt/kitt/ | grep -o -P '(?<=Jackett-).*(?=.tar.gz)' | tail -1`
 	JACKETT_DL=https://github.com$JACKETT_LNK
 	if [ "$JACKETT_TMP_F_VER" == "$JACKETT_VER" ]
 		then
-			echo you have the latest version installed
+			echo You have the latest version installed
+			echo Server version $JACKETT_VER
+			echo Local Version $JACKETT_TMP_F_VER
 			return 0
 		else
-			/*
 			echo Updating Jackett to the latest version
 			sleep 1
 			wget -nc -O $JACKETT_TMP_F $JACKETT_DL
@@ -158,9 +159,6 @@ jackett_updt(){
 			tar -xvf $JACKETT_TMP_F -C /opt
 			echo starting the service
 			systemctl start jackett.service
-			*/
-			echo Server version $JACKETT_VER
-			echo Local Version $JACKETT_TMP_F_VER
 	fi
 	return 0
 }
