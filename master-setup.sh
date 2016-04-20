@@ -138,7 +138,7 @@ jackett_updt(){
 	JACKETT_TMP_F=/opt/kitt/Jackett-$JACKETT_VER.tar.gz
 	JACKETT_TMP_F_VER=`ls /opt/kitt/ | grep -o -P '(?<=Jackett-v).*(?=.tar.gz)' | tail -1`
 	JACKETT_DL=https://github.com$JACKETT_LNK
-	if [ $JACKETT_TMP_F_VER == $JACKETT_VER ]
+	if [ "$JACKETT_TMP_F_VER" == "$JACKETT_VER" ]
 		then
 			echo you have the latest version installed
 			return 0
