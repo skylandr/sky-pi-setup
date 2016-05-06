@@ -140,28 +140,28 @@ jackett_updt(){
 	JACKETT_DL=https://github.com$JACKETT_LNK
 	if [ "$JACKETT_TMP_F_VER" == "$JACKETT_VER" ]
 		then
-			echo You have the latest version installed
-			echo Server version $JACKETT_VER
-			echo Local Version $JACKETT_TMP_F_VER
+			echo You have the latest version installed | tee -a setup.log
+			echo Server version $JACKETT_VER | tee -a setup.log
+			echo Local Version $JACKETT_TMP_F_VER | tee -a setup.log
 		else
-			echo Updating Jackett to the latest version
+			echo Updating Jackett to the latest version | tee -a setup.log
 			sleep 1
-			echo Removing old downloaded file
+			echo Removing old downloaded file | tee -a setup.log
 			rm -rf /opt/kitt/Jackett-$JACKETT_TMP_F_VER.tar.gz 2>&1 >> setup.log
-			echo Downloading the new file from server
-			wget -nc -O $JACKETT_TMP_F $JACKETT_DL 2>&1 >> setup.log
-			echo Stopping jackett.service
+			echo Downloading the new file from server | tee -a setup.log
+			wget -nc -O $JACKETT_TMP_F $JACKETT_DL |& tail >> setup.log
+			echo Stopping jackett.service | tee -a setup.log
 			systemctl stop jackett.service
 			sleep 2
-			echo Removing Jackett directory content
+			echo Removing Jackett directory content | tee -a setup.log
 			rm -vrf $JACKETT_D/* 2>&1 >> setup.log
-			echo Unpacking the new version 
+			echo Unpacking the new version | tee -a setup.log
 			tar -xvf $JACKETT_TMP_F -C /opt 2>&1 >> setup.log
-			echo Starting jackett.service
+			echo Starting jackett.service | tee -a setup.log
 			systemctl start jackett.service
 	fi
-	echo Removing temp files
-	rm -f $JACKETT_TMP_HTM_F
+	echo Removing temp files | tee -a setup.log
+	rm -f $JACKETT_TMP_HTM_F 2>&1 >> setup.log
 	return 0
 }
 
