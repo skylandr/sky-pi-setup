@@ -90,13 +90,11 @@ EOF
 }
 couchpotato(){
 	CP_SERVICE_F=/etc/systemd/system/couchpotato.service
-	echo This option is not yet implemented ... please try another number
-	sleep 5
-	echo installing dependencies
-	apt-get update 2>&1 >> setup.log
-	apt-get upgrade 2>&1 >> setup.log
+	# echo This option is not yet implemented ... please try another number
+	#sleep 5
+	echo Installing dependencies | tee -a setup.log
 	apt-get install git-core libffi-dev libssl-dev zlib1g-dev libxslt1-dev libxml2-dev python python-pip python-dev build-essential -y --force-yes 2>&1 >> setup.log
-	echo installing couchpotato from github
+	echo Installing couchpotato from github  | tee -a setup.log
 	git clone https://github.com/CouchPotato/CouchPotatoServer /opt/couchpotato
 	chown -R pi:pi /opt/couchpotato
 	if [ == $CP_SERVICE_F ]
@@ -124,18 +122,16 @@ EOF
 }
 
 jackett(){
-	echo This option is not yet implemented ... please try another number
-	sleep 5
-	return 0
-}
-
-jackett_updt(){
+	# Variables
 	JACKETT_D=/opt/Jackett
 	JACKETT_TMP_D=/opt/kitt
 	JACKETT_TMP_HTM_F=/opt/kitt/jackett.tmp
 	mkdir -p $JACKETT_TMP_D 
+	# Downloading releases html file to be parsed
 	wget -O $JACKETT_TMP_HTM_F https://github.com/Jackett/Jackett/releases |& tail >> setup.log
+	# Parsing release file to look for a direct download link
 	JACKETT_LNK=`cat $JACKETT_TMP_HTM_F | grep -m 1 -o -E "/Jackett/Jackett/releases/download/[^<>]*?/Jackett.Binaries.Mono.tar.gz"`
+	# Parsing for version
 	JACKETT_VER=`cat $JACKETT_TMP_HTM_F | grep -m 1 "css-truncate-target" | grep -E -o "v[^<>]*?" | head -1`
 	JACKETT_TMP_F=/opt/kitt/Jackett-$JACKETT_VER.tar.gz
 	JACKETT_TMP_F_VER=`ls /opt/kitt/ | grep -o -P '(?<=Jackett-).*(?=.tar.gz)' | tail -1`
@@ -174,19 +170,19 @@ webmin(){
 }
 
 plex()  {
-	echo This option is not yet implemented ... please try another number
+	echo This option is not yet implemented ... please try another option
 	sleep 5
 	return 0
         }
 
 all()   {
-        echo This option is not yet implemented ... please try another number
+        echo This option is not yet implemented ... please try another option
         sleep 5
-        sonarr
-        couchpotato
-        jackett
-        plex
-        webmin
+        # sonarr
+        # couchpotato
+        # jackett
+        # plex
+        # webmin
         return 0
         }
 
@@ -200,7 +196,7 @@ error() {
 	echo bad option ... try again
 }
 
-OPTIONS="SYS-Update Sonarr CouchPotato Jackett-inst Jackett-updt Webmin Plex All Quit"
+OPTIONS="SYS-Update Sonarr CouchPotato Jackett Webmin Plex All Quit"
 select opt in $OPTIONS; do
 	if [ "$opt" = "SYS-Update" ]; then
 			sys_update
@@ -208,10 +204,8 @@ select opt in $OPTIONS; do
 			sonarr
 		elif [ "$opt" = "CouchPotato" ]; then
 			couchpotato
-		elif [ "$opt" = "Jackett-inst" ]; then
+		elif [ "$opt" = "Jackett" ]; then
 			jackett
-		elif [ "$opt" = "Jackett-updt" ]; then
-			jackett_updt
 		elif [ "$opt" = "Webmin" ]; then
 			webmin
 		elif [ "$opt" = "Plex" ]; then
